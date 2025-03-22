@@ -1,5 +1,5 @@
 from typing import List, Dict, Any
-from config_loader import PromptConfig, load_model_config
+from config_loader import PromptConfig
 from inference_runner import InferenceRunner
 
 class EvaluationComponent:
@@ -7,7 +7,6 @@ class EvaluationComponent:
         self.outputs = outputs
         self.prompts = prompts
         self.results = []
-        self.model_config = load_model_config('model_config')
 
     def evaluate(self):
         for output in self.outputs:

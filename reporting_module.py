@@ -1,16 +1,17 @@
 import os
 from typing import List, Dict, Any
-from config_loader import load_model_config
 
 class ReportingModule:
     def __init__(self, results: List[Dict[str, Any]], log_dir: str = 'outputs/logs/'):
         self.results = results
         self.log_dir = log_dir
-        self.model_config = load_model_config('model_config')
 
     def output_results(self):
         for result in self.results:
-            print(f"Prompt: {result['prompt_key']}, Model: {result['model_key']}, Run: {result['run_number']}, Test: {result['test']}, Result: {result['result']}")
+            if 'success_rate' in result:
+                print(f"Prompt: {result['prompt_key']}, Test: {result['test']}, Success Rate: {result['success_rate']:.2f}, Result: {result['result']}")
+            else:
+                print(f"Prompt: {result['prompt_key']}, Model: {result['model_key']}, Run: {result['run_number']}, Test: {result['test']}, Result: {result['result']}")
 
     def log_results(self):
         if not os.path.exists(self.log_dir):
@@ -18,4 +19,7 @@ class ReportingModule:
         log_file = os.path.join(self.log_dir, 'test_results.log')
         with open(log_file, 'w') as f:
             for result in self.results:
-                f.write(f"Prompt: {result['prompt_key']}, Model: {result['model_key']}, Run: {result['run_number']}, Test: {result['test']}, Result: {result['result']}\n")
+                if 'success_rate' in result:
+                    f.write(f"Prompt: {result['prompt_key']}, Test: {result['test']}, Success Rate: {result['success_rate']:.2f}, Result: {result['result']}\n")
+                else:
+                    f.write(f"Prompt: {result['prompt_key']}, Model: {result['model_key']}, Run: {result['run_number']}, Test: {result['test']}, Result: {result['result']}\n")

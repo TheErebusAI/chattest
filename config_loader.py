@@ -1,10 +1,9 @@
 import os
 import json
-import importlib
 from typing import List, Dict, Any
 
 class PromptConfig:
-    def __init__(self, key: str, prompt: str, models: List[str], tests: List[str], runVolume: int, testModel: str, successThreshold: float):
+    def __init__(self, key: str, prompt: str, models: List[str], tests: List[str], runVolume: int, testModel: str, successThreshold: float, conversationHistory: List[Dict[str, str]] = None):
         self.key = key
         self.prompt = prompt
         self.models = models
@@ -12,6 +11,7 @@ class PromptConfig:
         self.runVolume = runVolume
         self.testModel = testModel
         self.successThreshold = successThreshold
+        self.conversationHistory = conversationHistory if conversationHistory else []
 
 class ModelConfig:
     def __init__(self, key: str, url: str, apiKey: str = None, apiKeyHeader: str = None):
@@ -56,7 +56,3 @@ class ConfigLoader:
             if self.validate_model_config(data):
                 models.append(ModelConfig(**data))
         return models
-
-def load_model_config(module_name: str) -> Dict[str, Any]:
-    module = importlib.import_module(module_name)
-    return module.MODEL_CONFIG

@@ -35,7 +35,11 @@ stored in JSON files in this project, these entities must have testing configura
   ],
   "runVolume": 20,
   "testModel": "claude-3.7-haiku",
-  "successThreshold": 0.8
+  "successThreshold": 0.8,
+  "conversationHistory": [
+    {"role": "user", "content": "Hello!"},
+    {"role": "assistant", "content": "Hi there! How can I help you today?"}
+  ]
 }
 ```
 
@@ -69,3 +73,23 @@ outputs should be displayed upon test run, but are not stored.
 ### test results
 
 test results are sent to stdout.
+
+## Running Tests for a Single Prompt
+
+To run tests for a single prompt, use the following command:
+
+```sh
+python main.py --prompt_key <prompt_key>
+```
+
+Replace `<prompt_key>` with the key of the prompt you want to test.
+
+## Using Parameterized Conversation Histories
+
+To use parameterized conversation histories for testing a prompt, provide the path to a JSON file containing the conversation history using the `--conversation_history` argument:
+
+```sh
+python main.py --prompt_key <prompt_key> --conversation_history <path_to_conversation_history_json>
+```
+
+Replace `<prompt_key>` with the key of the prompt you want to test and `<path_to_conversation_history_json>` with the path to the JSON file containing the conversation history.
