@@ -1,9 +1,10 @@
 import os
 import json
 from typing import List, Dict, Any
+from model_config import MODEL_CONFIG
 
 class PromptConfig:
-    def __init__(self, key: str, prompt: str, models: List[str], tests: List[str], runVolume: int, testModel: str, successThreshold: float, conversationHistory: List[Dict[str, str]] = None):
+    def __init__(self, key: str, prompt: str, models: List[str], tests: List[str], runVolume: int, testModel: str, successThreshold: float):
         self.key = key
         self.prompt = prompt
         self.models = models
@@ -11,7 +12,6 @@ class PromptConfig:
         self.runVolume = runVolume
         self.testModel = testModel
         self.successThreshold = successThreshold
-        self.conversationHistory = conversationHistory if conversationHistory else []
 
 class ModelConfig:
     def __init__(self, key: str, url: str, apiKey: str = None, apiKeyHeader: str = None):
@@ -56,3 +56,6 @@ class ConfigLoader:
             if self.validate_model_config(data):
                 models.append(ModelConfig(**data))
         return models
+
+def load_model_config() -> Dict[str, Any]:
+    return MODEL_CONFIG

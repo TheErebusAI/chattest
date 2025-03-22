@@ -1,6 +1,14 @@
 MODEL_CONFIG = {
-    "key": "example_model",
-    "url": "https://api.example.com/v1/completions",
-    "apiKey": "example_api_key",
-    "apiKeyHeader": "Authorization"
+    "model_1": {
+        "key": "model_1",
+        "url": "https://api.example.com/v1/completions",
+        "apiKey": "example-api-key",
+        "apiKeyHeader": "Authorization"
+    },
+    "model_2": {
+        "key": "model_2",
+        "url": "https://api.anotherexample.com/v1/completions",
+        "apiKey": "another-example-api-key",
+        "apiKeyHeader": "Authorization"
+    }
 }

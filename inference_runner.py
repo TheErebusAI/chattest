@@ -1,6 +1,6 @@
 import requests
 from typing import List, Dict, Any
-from config_loader import PromptConfig, ModelConfig, ConfigLoader
+from config_loader import PromptConfig, ModelConfig, ConfigLoader, load_model_config
 
 class InferenceRunner:
     def __init__(self, prompts: List[PromptConfig], models: List[ModelConfig]):
@@ -14,7 +14,7 @@ class InferenceRunner:
                 model = next((m for m in self.models if m.key == model_name), None)
                 if model:
                     for run in range(prompt.runVolume):
-                        output = self.send_request(model, prompt.prompt, prompt.conversationHistory)
+                        output = self.send_request(model, prompt.prompt)
                         self.outputs.append({
                             "prompt_key": prompt.key,
                             "model_key": model.key,
@@ -22,28 +22,11 @@ class InferenceRunner:
                             "output": output
                         })
 
-    def run_single_prompt_inference(self, prompt_key: str):
-        prompt = next((p for p in self.prompts if p.key == prompt_key), None)
-        if prompt:
-            for model_name in prompt.models:
-                model = next((m for m in self.models if m.key == model_name), None)
-                if model:
-                    output = self.send_request(model, prompt.prompt, prompt.conversationHistory)
-                    self.outputs.append({
-                        "prompt_key": prompt.key,
-                        "model_key": model.key,
-                        "run_number": 1,
-                        "output": output
-                    })
-
-    def send_request(self, model: ModelConfig, prompt_text: str, conversation_history: List[Dict[str, str]] = None) -> str:
+    def send_request(self, model: ModelConfig, prompt_text: str) -> str:
         headers = {}
         if model.apiKey and model.apiKeyHeader:
             headers[model.apiKeyHeader] = model.apiKey
-        payload = {"prompt": prompt_text}
-        if conversation_history:
-            payload["conversation_history"] = conversation_history
-        response = requests.post(model.url, json=payload, headers=headers)
+        response = requests.post(model.url, json={"prompt": prompt_text}, headers=headers)
         if response.status_code == 200:
             return response.json().get("output", "")
         else:

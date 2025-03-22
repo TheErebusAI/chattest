@@ -1,5 +1,5 @@
 from typing import List, Dict, Any
-from config_loader import PromptConfig
+from config_loader import PromptConfig, load_model_config
 from inference_runner import InferenceRunner
 
 class EvaluationComponent:
