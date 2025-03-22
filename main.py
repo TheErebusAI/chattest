@@ -15,7 +15,7 @@ def main():
         # Load configurations
         config_loader = ConfigLoader()
         prompts = config_loader.load_prompts()
-        models = load_model_config()
+        models = load_model_config()  # Load model configurations from model_config.py
 
         # Filter prompts based on the provided prompt key
         selected_prompts = [prompt for prompt in prompts if prompt.key == args.prompt_key]

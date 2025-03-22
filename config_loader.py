@@ -58,4 +58,10 @@ class ConfigLoader:
         return models
 
 def load_model_config() -> Dict[str, Any]:
+    """
+    Load the model configuration from the model_config.py file.
+
+    Returns:
+        dict: The model configuration dictionary.
+    """
     return MODEL_CONFIG
